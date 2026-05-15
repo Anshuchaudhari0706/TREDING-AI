@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================================
     const urlParams = new URLSearchParams(window.location.search);
     const BACKEND_URL = urlParams.get('backend') ||
-        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:8000'
-            : 'https://treding-ai.onrender.com');
+        (window.location.hostname.includes('vercel.app') 
+            ? 'https://treding-ai.onrender.com' 
+            : window.location.origin); // Use current host (ngrok or localhost)
     
     // Show which backend is connected
     const backendIndicator = document.getElementById('aiStatus');
