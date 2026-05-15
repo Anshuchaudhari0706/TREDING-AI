@@ -156,7 +156,11 @@ document.addEventListener('DOMContentLoaded', () => {
             let pair = currentSymbol.split(':')[1] || currentSymbol;
             const customStrategy = document.getElementById('customStrategyInput') ? document.getElementById('customStrategyInput').value : '';
             const period = document.getElementById('backtestPeriod') ? document.getElementById('backtestPeriod').value : '60d';
-            const res = await fetch(`${BACKEND_URL}/api/analyze?symbol=${pair}&timeframe=${currentInterval}&strategy=${encodeURIComponent(customStrategy)}&period=${period}`);
+            const res = await fetch(`${BACKEND_URL}/api/analyze?symbol=${pair}&timeframe=${currentInterval}&strategy=${encodeURIComponent(customStrategy)}&period=${period}`, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            });
             const data = await res.json();
 
             if (!data.success) {
@@ -316,6 +320,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (err) {
             console.error("Backend Error:", err);
+            document.getElementById('signalActionLabel').innerText = 'ERROR';
+            document.getElementById('signalActionLabel').className = 'signal-value bearish';
+            document.getElementById('mlSetupLabel').innerText = 'Check Console';
             document.getElementById('smcContent').innerHTML = `
             <ul class="smc-list">
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>
