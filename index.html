@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>NexusTrade AI - Institutional Terminal</title>
+    
+    <!-- iOS / PWA Requirements -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="NexusTrade">
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHZpZXdCb3g9JzAgMCAxMDAgMTAwJz48cmVjdCB3aWR0aD0nMTAwJyBoZWlnaHQ9JzEwMCcgcng9JzIwJyBmaWxsPScjM2I4MmY2Jy8+PHBhdGggZD0nTTIwIDUwIEw0MCA3MCBMODAgMzAnIGZpbGw9J25vbmUnIHN0cm9rZT0nd2hpdGUnIHN0cm9rZS13aWR0aD0nMTAnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCcvPjwvc3ZnPg==">
+
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo"></div>
+                <h1>NexusTrade AI</h1>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></svg>
+                    Dashboard
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                    Markets
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    AI Signals
+                </a>
+                <a href="#" class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z"/><path d="M12 14a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-bar">
+                <div class="search-bar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    <input type="text" id="symbolSearch" placeholder="Search markets (e.g., VANTAGE:XAUUSD, FOREXCOM:EURUSD)..." value="VANTAGE:XAUUSD">
+                    <button id="btnLoadChart" class="btn-primary">Analyze</button>
+                </div>
+                <div class="user-profile">
+                    <div class="status-indicator live"></div>
+                    <span>AI Engine Online</span>
+                </div>
+            </header>
+
+            <!-- AI STRATEGY BUILDER PROMPT -->
+            <div class="strategy-prompt-container" style="padding: 12px 24px; background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid rgba(59, 130, 246, 0.3);">
+                <div style="display: flex; gap: 12px; align-items: center;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4M19 17v4M3 5h4M17 19h4"/></svg>
+                    <input type="text" id="customStrategyInput" placeholder="Describe strategy to AI (e.g., '9 ema and 20 ema crossover at support')..." style="flex: 1; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px 16px; border-radius: 8px; font-size: 14px; font-family: 'Inter', sans-serif;">
+                    
+                    <select id="backtestPeriod" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 8px; font-family: 'Inter', sans-serif;">
+                        <option value="60d">Last 60 Days (Intraday)</option>
+                        <option value="1y">1 Year Backtest (Daily)</option>
+                        <option value="5y">5 Year Deep Backtest (Daily)</option>
+                    </select>
+                    
+                    <button id="btnDeployStrategy" class="btn-primary" style="background: #10b981; margin-left: 10px;">Deploy to Chart</button>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Chart Section -->
+                <div class="chart-section" style="display: flex; flex-direction: column; gap: 24px; min-width: 0;">
+                    <div class="chart-container glass-panel" style="flex: 2; display: flex; flex-direction: column;">
+                        <div class="panel-header">
+                            <h2>Original TradingView Chart</h2>
+                            <div class="badge">Live Data</div>
+                        </div>
+                        <div id="tvchart" class="tv-widget-container" style="position: relative; flex: 1; min-height: 500px;"></div>
+                    </div>
+                    
+                    <!-- Equity Curve & Comparison -->
+                    <div class="equity-container glass-panel" style="flex: 1; min-height: 250px; display: flex;">
+                        <div class="equity-chart" style="flex: 2; display: flex; flex-direction: column;">
+                            <div class="panel-header" style="border-bottom: none; padding-bottom: 0;">
+                                <h2>1-Year Equity Curve</h2>
+                            </div>
+                            <div id="equityChart" style="flex: 1; width: 100%;"></div>
+                        </div>
+                        <div class="strategy-compare" style="flex: 1; padding: 24px; border-left: 1px solid var(--border-color); display: flex; flex-direction: column; justify-content: center; gap: 16px;">
+                            <h4 style="color: var(--text-muted); font-size: 0.9rem; text-transform: uppercase;">Strategy Comparison</h4>
+                            <div class="compare-row" style="display: flex; justify-content: space-between; font-size: 1.1rem;">
+                                <span>NexusTrade SMC AI</span>
+                                <strong id="cmpAI" class="text-buy">+0.0%</strong>
+                            </div>
+                            <div class="compare-row" style="display: flex; justify-content: space-between; font-size: 0.9rem; color: var(--text-muted);">
+                                <span>Buy & Hold</span>
+                                <strong id="cmpBH" class="text-neutral">+0.0%</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Analysis Panel -->
+                <div class="ai-panel glass-panel">
+                    <div class="panel-header">
+                        <h2>ML Engine & Backtest</h2>
+                        <div class="scanning-animation"></div>
+                    </div>
+                    
+                    <div class="ai-status">
+                        <div class="signal-box" id="activeTradeSignal" style="display: none; border-color: var(--accent-primary); margin-bottom: 24px;">
+                            <h3 style="color: var(--accent-primary);">Active Trade Signal</h3>
+                            <div class="signal-value" id="signalActionLabel" style="font-size: 2rem;">WAITING...</div>
+                            <div class="signal-value neutral" id="mlSetupLabel" style="font-size: 1.2rem; margin-bottom: 12px;">--</div>
+                            <div class="signal-details" style="display: flex;">
+                                <div class="detail-row"><span>Entry Zone:</span> <strong id="sigEntry">--</strong></div>
+                                <div class="detail-row"><span>Stop Loss:</span> <strong id="sigSL" class="text-sell">--</strong></div>
+                                <div class="detail-row"><span>Take Profit 1:</span> <strong id="sigTP1" class="text-buy">--</strong></div>
+                                <div class="detail-row"><span>Take Profit 2:</span> <strong id="sigTP2" class="text-buy">--</strong></div>
+                            </div>
+                        </div>
+
+                        <div class="signal-box" id="mainSignal">
+                            <h3>1-Year ML Backtest</h3>
+                            <div class="signal-value buy" id="btProfit">+0.0%</div>
+                            <div class="signal-details" id="signalDetails" style="display: flex; margin-top: 16px;">
+                                <div class="detail-row"><span>Monthly P&L:</span> <strong id="btMonth" class="text-buy">--%</strong></div>
+                                <div class="detail-row"><span>Win Rate:</span> <strong id="btWinRate">--%</strong></div>
+                                <div class="detail-row"><span>Total Trades:</span> <strong id="btTrades">--</strong></div>
+                                <div class="detail-row"><span>Profit Factor:</span> <strong id="btPF" class="text-buy">--</strong></div>
+                                <div class="detail-row"><span>ML Confidence:</span> <strong id="mlConf" class="text-neutral">--%</strong></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mtf-panel">
+                        <h4>Multi-Timeframe Bias</h4>
+                        <div class="mtf-grid">
+                            <div class="mtf-card">
+                                <span>15m</span>
+                                <strong id="mtf15m" class="text-neutral">--</strong>
+                            </div>
+                            <div class="mtf-card">
+                                <span>1H</span>
+                                <strong id="mtf1H" class="text-neutral">--</strong>
+                            </div>
+                            <div class="mtf-card">
+                                <span>4H</span>
+                                <strong id="mtf4H" class="text-neutral">--</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="smc-panel">
+                        <h4>Smart Money Concepts (SMC)</h4>
+                        <div class="smc-content" id="smcContent">
+                            <p class="text-muted">Click 'Analyze' to scan chart for Liquidity Sweeps, Order Blocks, and FVGs...</p>
+                        </div>
+                    </div>
+
+                    <div class="survival-panel" style="padding: 0 24px 24px;">
+                        <h4 style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;">Did Strategy Survive:</h4>
+                        <div class="survival-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div class="survival-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem;"><span style="color: #10b981;">✔</span> Low Volatility</div>
+                            <div class="survival-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem;"><span style="color: #10b981;">✔</span> High Volatility</div>
+                            <div class="survival-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem;"><span style="color: #10b981;">✔</span> Trending Market</div>
+                            <div class="survival-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem;"><span style="color: #10b981;">✔</span> Ranging Market</div>
+                            <div class="survival-item" style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem;"><span style="color: #10b981;">✔</span> News Spikes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+    <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+    <script src="app.js"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('PWA ServiceWorker registered!'))
+            .catch(err => console.log('ServiceWorker registration failed: ', err));
+        });
+      }
+    </script>
+</body>
+</html>
