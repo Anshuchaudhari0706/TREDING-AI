@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import yfinance as yf
 import pandas as pd
@@ -335,3 +336,6 @@ def analyze(symbol: str = "BTCUSDT", timeframe: str = "15m", strategy: str = "",
         
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+# Serve frontend statically
+app.mount("/", StaticFiles(directory=".", html=True), name="static")
