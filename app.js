@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =============================================
     const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
         ? 'http://localhost:8000'
-        : 'https://nexustrade-backend.onrender.com'; // ← Will be updated after Render deploy
+        : 'https://treding-ai.onrender.com'; // Live Render backend
 
     const chartContainer = document.getElementById('tvchart');
     const inputSymbol = document.getElementById('symbolSearch');
