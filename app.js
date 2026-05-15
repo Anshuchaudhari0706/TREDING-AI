@@ -1,4 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // =============================================
+    // BACKEND URL — Update this after Render deploy
+    // =============================================
+    const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+        ? 'http://localhost:8000'
+        : 'https://nexustrade-backend.onrender.com'; // ← Will be updated after Render deploy
+
     const chartContainer = document.getElementById('tvchart');
     const inputSymbol = document.getElementById('symbolSearch');
     const btnLoadChart = document.getElementById('btnLoadChart');
@@ -141,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let pair = currentSymbol.split(':')[1] || currentSymbol;
             const customStrategy = document.getElementById('customStrategyInput') ? document.getElementById('customStrategyInput').value : '';
             const period = document.getElementById('backtestPeriod') ? document.getElementById('backtestPeriod').value : '60d';
-            const res = await fetch(`http://localhost:8000/api/analyze?symbol=${pair}&timeframe=${currentInterval}&strategy=${encodeURIComponent(customStrategy)}&period=${period}`);
+            const res = await fetch(`${BACKEND_URL}/api/analyze?symbol=${pair}&timeframe=${currentInterval}&strategy=${encodeURIComponent(customStrategy)}&period=${period}`);
             const data = await res.json();
 
             if (!data.success) {
