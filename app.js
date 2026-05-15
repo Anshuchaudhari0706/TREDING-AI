@@ -1,10 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     // =============================================
-    // BACKEND URL — Update this after Render deploy
+    // BACKEND URL — Auto-detects local vs live
     // =============================================
-    const BACKEND_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-        ? 'http://localhost:8000'
-        : 'https://treding-ai.onrender.com'; // Live Render backend
+    const urlParams = new URLSearchParams(window.location.search);
+    const BACKEND_URL = urlParams.get('backend') ||
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:8000'
+            : 'https://treding-ai.onrender.com');
+    
+    // Show which backend is connected
+    const backendIndicator = document.getElementById('aiStatus');
+    if (backendIndicator) {
+        backendIndicator.title = `Backend: ${BACKEND_URL}`;
+    }
 
     const chartContainer = document.getElementById('tvchart');
     const inputSymbol = document.getElementById('symbolSearch');
